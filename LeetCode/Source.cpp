@@ -345,10 +345,14 @@ public:
 */
 
 //Solution_228
-/**/
+/*
 class Solution_228 {
 public:
     vector<string> summaryRanges(vector<int>& nums) {
+        if (nums.size() == 1)
+            return { to_string(nums[0]) };
+        if (nums.empty())
+            return {};
         int firstpos = nums[0], secondpos = nums[0];
         vector<string> ans = {};
         for (int i = 0; i < nums.size() - 1; i++)
@@ -359,14 +363,38 @@ public:
             }
             else
             {
-                ans.push_back(to_string(firstpos) + "->" + to_string(i));
-                firstpos = nums[i];
-                secondpos = nums[i + 1];
+                if (firstpos == secondpos) 
+                { 
+                    ans.push_back(to_string(firstpos)); 
+                    firstpos = nums[i + 1];
+                    secondpos = nums[i + 1];
+                }
+                else {
+                    ans.push_back(to_string(firstpos) + "->" + to_string(secondpos));
+                    firstpos = nums[i + 1];
+                    secondpos = nums[i + 1];
+                    }
+            }
+            if (nums[i + 1] == *(nums.end() - 1))
+            {
+                if (firstpos == secondpos)
+                {
+                    ans.push_back(to_string(firstpos));
+                    firstpos = nums[i + 1];
+                }
+                else
+                {
+                    ans.push_back(to_string(firstpos) + "->" + to_string(secondpos));
+                }
+                
             }
         }
         return ans;
     }
 };
+*/
+
+
 
 
 int main()
@@ -411,10 +439,13 @@ int main()
     /*Solution_27 sl27;
     vector<int> v27 = { 0,1,2,2,3,0,4,2 };   int x = 2;
     cout << sl27.removeElement(v27, x);*/
+    /*Solution_228 sl228;
+    vector<int> v228 = { 1, 3 };
+    sl228.summaryRanges(v228);*/
     /**/
-    Solution_228 sl228;
-    vector<int> v228 = { 0,1,2,4,5,7 };
-    sl228.summaryRanges(v228);
+
+
+
 
 
     return 0;
