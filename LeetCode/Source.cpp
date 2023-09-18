@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <stack>
 #include <queue>
+#include <numeric>
 using namespace std;
 
 
@@ -394,6 +395,565 @@ public:
 };
 */
 
+//Solution_70
+/*
+class Solution_70 {
+public:
+    int climbStairs(int n) {
+        if (n <= 2)
+            return n;
+        vector<int> dp(n + 1);
+        dp[0] = 0;
+        dp[1] = 1;
+        dp[2] = 2;
+        for (int i = 3; i <= n; i++)
+            dp[i] = dp[i - 1] + dp[i - 2];
+
+        return dp[n];
+    }
+};
+*/
+
+//Solution_169
+/*
+class Solution_169 {
+public:
+    int majorityElement(vector<int>& nums) {
+        unordered_map<int, int> m169;
+        for (int const el : nums)
+        {
+            ++m169[el];
+        }
+        for (auto const& m : m169)
+        {
+            if (m.second > nums.size() / 2)
+                return m.first;
+        }
+
+        return 0;
+    }
+};
+*/
+
+//Solution_530
+/*
+ struct TreeNode {
+   int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+
+ TreeNode* insertNode(TreeNode* root, int value) {
+     if (root == nullptr) {
+         return new TreeNode(value);
+     }
+
+     if (value < root->val) {
+         root->left = insertNode(root->left, value);
+     }
+     else {
+         root->right = insertNode(root->right, value);
+     }
+
+     return root;
+ }
+
+
+class Solution_530 {
+public:
+    int getMinimumDifference(TreeNode* root) {
+        preOrderTraversal(root);
+        int min = abs(v530[1] - v530[0]);
+        for (int i = 0; i < v530.size(); ++i)
+        {
+            for (int j = i+1; j < v530.size(); ++j)
+            {
+                if (abs(v530[i] - v530[j]) < min)
+                    min = abs(v530[i] - v530[j]);
+            }
+        }
+
+        return min;
+    }
+
+    void preOrderTraversal(TreeNode* root) {
+        
+        if (root == nullptr) {
+            return;
+        }
+
+        v530.push_back(root->val);
+        preOrderTraversal(root->left);
+        preOrderTraversal(root->right);
+    }
+    vector<int> v530;
+};
+*/
+
+//Solution_33
+/*
+class Solution_33 {
+public:
+    int search(vector<int>& nums, int target) {
+        auto it1 = find(nums.begin(), nums.end(), target);
+        if ( it1 != nums.end())
+        {
+            return it1 - nums.begin();
+        }
+        else
+        {
+            return -1;
+        }
+    }
+};
+*/
+
+//Solution_1351
+/*
+class Solution_1351 {
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        int counter = 0;
+        for (size_t it_grid = grid.size() - 1; it_grid != -1; --it_grid)
+        {
+            for (size_t it_row = grid[it_grid].size() - 1; it_row != -1; --it_row)
+            {
+                if (grid[it_grid][it_row] < 0)
+                {
+                    counter++;
+                }
+                else
+                {
+                    continue;
+                }
+                
+            }
+        }
+        return counter;
+    }
+};
+*/
+
+//Solution_11
+/*
+class Solution_11 {
+public:
+    int maxArea(vector<int>& height) {
+        int max1 = 0, left = 0, right = height.size()-1;
+        while (left != right)
+        {
+            max1 = max(min(height[left], height[right]) *(right - left), max1);
+
+            if (height[left] < height[right])
+                ++left;
+            else
+                --right;
+        }
+
+        return max1;
+    }
+};
+*/
+
+//Solution_53       // not_solved
+/*
+class Solution_53 {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int max1 = nums[nums.size() / 2];//accumulate(nums.begin(), nums.end(), 0);
+        int left = nums.size() / 2 - 1, right = nums[nums.size() / 2] + 1;
+        while (left != *nums.begin() || right != *(nums.end() - 1))
+        {
+            if (max1 + nums[left] >= max1)
+            {
+                max1 += nums[left];
+                left++;
+            }
+            else
+                if (max1 + nums[right] >= max1)
+                {
+                    max1 += nums[right];
+                    right++;
+                }
+                else
+                    return max1;
+        }
+    }
+};
+*/
+
+//Solution_21
+/*
+struct ListNode {
+    int val;    
+    ListNode *next;    
+    ListNode() : val(0), next(nullptr) {}    
+    ListNode(int x) : val(x), next(nullptr) {}    
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+ 
+class Solution_21 {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if (list1 == NULL)
+            return list2;
+        if (list2 == NULL)
+            return list1;
+
+        ListNode* mergened = new ListNode(-1);
+        ListNode* current = mergened;
+
+        while (list1 && list2) {
+            if (list1->val < list2->val)
+            {
+                current->next = list1;
+                list1 = list1->next;
+                
+            }
+            else
+            {
+                current->next = list2;
+                list2 = list2->next;
+                
+            }
+            current = current->next;
+        }
+
+        while (list1) 
+        {
+            current->next = list1;
+            list1 = list1->next;
+            current = current->next;
+        }
+        while (list2)
+        {
+            current->next = list2;
+            list2 = list2->next;
+            current = current->next;
+        }
+
+        return mergened->next;
+    }
+};
+*/
+
+//Solution_1502
+/*
+class Solution_1502 {
+public:
+    bool canMakeArithmeticProgression(vector<int>& arr) {
+        int size = arr.size();
+        if (size == 2)
+            return true;
+        sort(arr.begin(), arr.end());
+        int c = 1, x = arr[1] - arr[0];
+        while (c != size)
+        {
+            if (!(arr[c - 1] + x == arr[c]))
+                return false;
+            c++;
+        }
+        return true;
+    }
+};
+*/
+
+//Solution_141
+/*
+class Solution_141 {
+public:
+    bool hasCycle(ListNode* head) {
+        int i = 0;
+        while (i < 10001)
+        {
+
+            if (head == nullptr)
+                return false;
+            head = head->next;
+            ++i;
+        }
+
+        return true;
+
+    }
+};
+*/
+
+//Solution_189
+/*
+class Solution_189 {
+public:
+    void rotate(vector<int>& nums, int k) {
+        if (nums.size() == 1)
+            return;
+        k = k % nums.size();
+        reverse(nums.begin(), nums.end() - k);
+        reverse(nums.end() - k, nums.end());
+        reverse(nums.begin(), nums.end());
+        
+    }
+};
+*/
+
+//Solution_605      // not_solved
+/*
+class Solution_605 {
+public:
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+
+    }
+};
+Solution_605 sl605;
+vector<int> v605 = { 1,0,0,0,1 };
+sl605.canPlaceFlowers(v605, 2);
+*/
+
+//Solution_2352
+/*
+class Solution_2352 {
+public:
+    int equalPairs(vector<vector<int>>& grid) {
+        vector<vector<int>> mv;
+        int c = 0;
+
+        for (size_t i = 0; i < grid.size(); i++)
+        {
+            vector<int> temp;
+            for (size_t j = 0; j < grid[i].size(); j++)
+            {
+                temp.push_back(grid[j][i]);
+            }
+            mv.push_back(temp);
+        }
+
+        for (size_t i = 0; i < grid.size(); i++)
+        {
+            for (size_t j = 0; j < mv.size(); j++)
+            {
+                if (grid[i] == mv[j])
+                    c++;
+            }
+        }
+
+        return c;
+    }
+};
+*/
+
+//Solution_1732
+/*
+class Solution_1732 {
+public:
+    int largestAltitude(vector<int>& gain) {
+        int road = 0;
+        int max = 0;
+        for (int el : gain)
+        {
+            road += el;
+            if (max < road)
+                max = road;
+        }
+        return max;
+    }
+};
+*/
+
+//Solution_2462
+/*
+class Solution_2462 {
+public:
+    long long totalCost(vector<int>& costs, int k, int candidates) {
+        int totalCost = 0;
+        
+        while (k--)
+        {
+            auto min1 = min_element(costs.begin(), costs.end());
+            auto min2 = min1;
+            if (costs.size() > candidates)
+            {
+                min1 = min_element(costs.begin(), costs.end() - (costs.size() - candidates));
+                min2 = min_element(costs.end() - candidates, costs.end());
+            }
+            if (*min1 != *min2)
+            {   if (*min1 < *min2)
+                {
+                totalCost += *min1;
+                costs.erase(min1);
+                }
+                else
+                {
+                    totalCost += *min2;
+                    costs.erase(min2);
+                
+                }
+            }
+            else
+            {
+                totalCost += *min1;
+                costs.erase(min1);
+            }
+            
+        }
+
+        return totalCost;
+    }
+};
+*/
+
+//Solution_67
+/*
+class Solution_67 {
+public:
+
+
+    string addBinary(string a, string b) {
+        bool flag = false;
+        int aLength = a.size(), bLength = b.size();
+        int curLength;
+        string answer = "";
+        if (aLength > bLength)
+        {
+            b.insert(0, aLength - bLength, '0');
+            curLength = aLength;
+        }
+        else
+            if (aLength != bLength)
+            {
+                a.insert(0, bLength - aLength, '0');
+                curLength = bLength;
+            }
+        for (size_t i = curLength - 1; i != -1; --i)
+        {
+            if (a[i] == '0')
+                // a == 0
+                if (b[i] == '0')
+                // b == 0 && a == 0
+                {
+                    if (!flag)
+                    {
+                        answer += '0';
+                    }
+                    else
+                    {
+                        answer += '1';
+                        flag = false;
+                    }
+                }
+                else
+                // b == 1 && a == 0
+                {
+                    if (!flag)
+                    {
+                        answer += '1';
+                    }
+                    else
+                    {
+                        answer += '0';
+                        flag = true;
+                    }
+                }
+            else
+                // a == 1
+                if (b[i] == '0')
+                // b == 0 && a == 1
+                {
+                    if (!flag)
+                    {
+                        answer += '1';
+                    }
+                    else
+                    {
+                        answer += '0';
+                        flag = true;
+                    }
+                }
+                else
+                // b == 1 && a == 1
+                {
+                    if (!flag)
+                    {
+                        answer += '0';
+                        flag = true;
+                    }
+                    else
+                    {
+                        answer += '1';
+                        flag = true;
+                    }
+                }
+        }
+        if (flag)
+            answer += '1';
+        reverse(answer.begin(), answer.end());
+        return answer;
+    }
+};
+*/
+
+//Solution_83
+/*
+ struct ListNode {
+     int val;
+     ListNode *next;
+     ListNode() : val(0), next(nullptr) {}
+     ListNode(int x) : val(x), next(nullptr) {}
+     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ };
+ 
+class Solution_83 {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode* current = head;
+        while (current != nullptr && current->next != nullptr) {
+            if (current->val == current->next->val)
+            {
+                current->next = current->next->next;
+            }
+            else
+                current = current->next;  
+        }
+        return head;
+    }
+};
+*/
+
+//Solution_459
+/*
+class Solution_459 {
+public:
+    bool repeatedSubstringPattern(string s) {
+        int len = s.length();
+        for (size_t i = 1; i <= len / 2; ++i)
+        {
+            if (len % i == 0)
+            {
+                string subStr = s.substr(0, i);
+                string repStr = "";
+                for (size_t j = 0; j < len / i; ++j)
+                {
+                    repStr += subStr;
+                }
+                if (repStr == s)
+                    return true;
+            }
+        }
+        return false;
+    }
+};
+*/
+
+//Solution_605
+/*
+class Solution_605 {
+public:
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+        return true;
+    }
+};
+*/
 
 
 
@@ -442,11 +1002,224 @@ int main()
     /*Solution_228 sl228;
     vector<int> v228 = { 1, 3 };
     sl228.summaryRanges(v228);*/
-    /**/
+    /*Solution_70 sl70;
+    cout << sl70.climbStairs(3);*/
+    /*Solution_169 sl169;
+    vector<int> v169 = { 2,2,1,1,1,2,2,1,1 };
+    cout << sl169.majorityElement(v169);*/
+    /*Solution_530 sl530;
+    TreeNode* root = new TreeNode(236);
+    insertNode(root, 104);
+    insertNode(root, 701);
+    insertNode(root, NULL);
+    insertNode(root, 227);
+    insertNode(root, NULL);
+    insertNode(root, 911);
+    sl530.getMinimumDifference(root);*/
+    /*Solution_33 sl33;
+    vector<int> v33 = { 4,5,6,7,0,1,2 };
+    int target = 3;
+    cout << sl33.search(v33, target);*/
+    /*Solution_1351 sl1351;
+    vector<vector<int>> vv1351 = { {4,3,2,-1}, {3,2,1,-1}, {1,1,-1,-2}, {-1,-1,-2,-3} };
+    cout << sl1351.countNegatives(vv1351);*/
+    /*Solution_11 sl11;
+    vector<int> v11 = { 1,8,6,2,5,4,8,3,7 };
+    cout << sl11.maxArea(v11);*/
+    /*Solution_53 sl53;
+    vector<int> v53 = { -2,1,-3,4,-1,2,1,-5,4 };
+    cout << sl53.maxSubArray(v53);*/
+    /*ListNode* head = nullptr; // √олова списка
+    ListNode* tail = nullptr; // ’вост списка
+
+    for (int i = 1; i <= 5; i++) {
+        ListNode* newNode = new ListNode(i);
+
+        if (head == nullptr) {
+            // ≈сли список пустой, новый узел становитс€ головой и хвостом списка
+            head = newNode;
+            tail = newNode;
+        }
+        else {
+            // ≈сли список не пустой, добавл€ем новый узел в конец списка
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+    ListNode* head1 = nullptr; // √олова списка
+    ListNode* tail1 = nullptr; // ’вост списка
+
+    for (int i = 2; i <= 10; i+=2) {
+        ListNode* newNode = new ListNode(i);
+
+        if (head1 == nullptr) {
+            // ≈1сли список пустой, новый узел становитс€ головой и хвостом списка
+            head1 = newNode;
+            tail1 = newNode;
+        }
+        else {
+            // ≈сли список не пустой, добавл€ем новый узел в конец списка
+            tail1->next = newNode;
+            tail1 = newNode;
+        }
+    }
+    Solution_21 sl21;
+    sl21.mergeTwoLists(head, head1);*/
+    /*Solution_1502 sl1502;
+    vector<int> v1502 = { 3,5,1 };
+    cout << sl1502.canMakeArithmeticProgression(v1502);*/
+    /*Solution_189 sl189;
+    vector<int> v189 = { 1,2 };
+    sl189.rotate(v189, 1);*/
+    /*Solution_2352 sl2352;
+    vector<vector<int>> grid = { {13,13},{13,13} };
+    cout << sl2352.equalPairs(grid);*/
+    /*Solution_1732 sl1732;
+    vector<int> v1732 = { -5,1,5,0,-7 };
+    cout << sl1732.largestAltitude(v1732);*/
+    /*Solution_2462 sl2462;
+vector<int> v2462 = { 31,25,72,79,74,65,84,91,18,59,27,9,81,33,17,58 };
+cout << sl2462.totalCost(v2462, 11, 2);*/
+    //Solution_67
+    /*Solution_67 sl67;
+cout << sl67.addBinary("11","1");*/
+    //Solution_83
+    /*
+    Solution_83 sl83;
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(1);
+    head->next->next = new ListNode(2);
+    head->next->next->next = new ListNode(3);
+    head->next->next->next->next = new ListNode(3);
+
+    sl83.deleteDuplicates(head);
+
+    ListNode* current = head;
+    while (current != nullptr) {
+        cout << current->val << " ";
+        current = current->next;
+    }
+    */
+    //Solution_459
+    /*Solution_459 sl459;
+    cout << sl459.repeatedSubstringPattern("abab");*/
+    //
+    /*
+Solution_605 sl605;
+vector<int> v605 = {};
+sl605.canPlaceFlowers(v605, 1);
+*/
+
+
+ }
+
+
+ //¬аканси€ (hh.ru)
+ /*
+ // «а услови€ вз€то следующее:
+// 1) ¬се обычные пробелы в строке равны одинарному пробелу ' '.
+// 2) Ќайденный двойной пробел обозначает пробел до конца строки (длинный пробел).
+// 3) —трока точно имеет длинный пробел.
+ void TrimRight(char* s)
+ {
+     string str = s;
+     int length = str.size(), start = 0;
+
+     // сокращаем диапазон возможного первого по€влени€ длинного пробела
+     while (true)
+     {
+         if (s[(length + start) / 2] == ' ' && s[((length + start) / 2) + 1] == ' ')
+         {
+             if (length / 2 < start) break;
+             else length /= 2;
+         }
+         else
+         {
+             if (length < (length + start) / 2) break;
+             else start = (length + start) / 2;
+         }
+     }
+
+     // ищем в уменьшенном диапазоне по€вление длинного пробела и замен€ем первый пробел на “ерминальный ноль '\0'
+     for (size_t i = start; i < length - 1; ++i)
+     {
+         if (s[i] == ' ' && s[i + 1] == ' ')
+         {
+             s[i] = '\0';
+             break;
+         }
+     }
+ }
+
+ int main()
+ {
+     char s[] = "0123456789 0123456789 0123456789 0123456789 0123456789 01234567890123456789 0123456789 0123456789                    ";
+     cout << s << "=end" << endl;
+     TrimRight(s);
+     cout << s << "=end" << endl;
+ }
+ */
 
 
 
+//Binary Tree
 
-
-    return 0;
-}
+//// —труктура дл€ представлени€ узла бинарного дерева
+//struct Node {
+//    int data;
+//    Node* left;
+//    Node* right;
+//
+//    Node(int value) {
+//        data = value;
+//        left = nullptr;
+//        right = nullptr;
+//    }
+//};
+//
+//// ‘ункци€ дл€ вставки нового узла в бинарное дерево
+//Node* insertNode(Node* root, int value) {
+//    if (root == nullptr) {
+//        return new Node(value);
+//    }
+//
+//    if (value < root->data) {
+//        root->left = insertNode(root->left, value);
+//    }
+//    else {
+//        root->right = insertNode(root->right, value);
+//    }
+//
+//    return root;
+//}
+//
+//// ‘ункци€ дл€ обхода узлов бинарного дерева в пр€мом пор€дке (pre-order)
+//void preOrderTraversal(Node* root) {
+//    if (root == nullptr) {
+//        return;
+//    }
+//
+//    std::cout << root->data << " ";
+//    preOrderTraversal(root->left);
+//    preOrderTraversal(root->right);
+//}
+//
+//int main() {
+//    // —оздание корневого узла
+//    Node* root = new Node(5);
+//
+//    // ¬ставка узлов
+//    insertNode(root, 3);
+//    insertNode(root, 7);
+//    insertNode(root, 2);
+//    insertNode(root, 4);
+//    insertNode(root, 6);
+//    insertNode(root, 8);
+//
+//    // ќбход узлов в пр€мом пор€дке
+//    std::cout << "Pre-order traversal: ";
+//    preOrderTraversal(root);
+//    std::cout << std::endl;
+//
+//    return 0;
+//}
